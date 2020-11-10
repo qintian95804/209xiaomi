@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/denglu.css">
+</head>
+<body>
+    <div class="herder">
+        <div class="box">
+            <a href="http://localhost:8080/shouye.html"><img src="img/071.png"></a>
+        </div>
+    </div>
+    <div class="logo">
+        <div class="obj">
+            <div class="reg">
+                <div class="chian">
+                    <li class="then" href="">账号登录</li>
+                    <span>|</span>
+                    <li href="">扫码登录</li>
+                </div>
+                <div class="lng">
+                    <input class="zh" type="text">
+                    <input class="mi" type="password">
+                </div>
+                <button class="btn">登录</button>
+                <p>手机微信登录/注册</p>
+                <div><a href="http://localhost:8080/zhuce.html">立即注册</a><span>|</span><a href="">忘记密码？</a></div>
+                <div class="sns">
+                    <div><i><img src="img/073.png"></i></div>
+                    <div><i><img src="img/073.png"></i></div>
+                    <div><img src="img/073.png"></div>
+                    <div><i><img src="img/073.png"></i></div>
+                </div>
+                <div class="saoma">
+                    <img src="img/075.png" alt="">
+                    <p>使用 <span>小米商城APP</span> 扫一扫</p>
+                    <p>小米手机可打开「设置」>「小米帐号」扫码登录</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <ul>
+            <li>简体 |</li>
+            <li>繁体 |</li>
+            <li>English |</li>
+            <li>常见问题 |</li>
+            <li>隐私策略</li>
+        </ul>
+        <p>
+            <span>小米公司版权所有-京ICP备10046444-</span>
+            <i><img src="img/074.png"></i>
+            <a href="">京公网安备11010802020134号-京ICP证110507号</a>
+        </p>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            var sa1 = $(".chian").find("a").eq(0);
+            var sa2 = $(".chian").find("li").eq(1);
+            $(".chian").find("li").click(function(){
+                $(this).addClass("then").siblings().removeClass("then");
+                if($(".chian").find("li").eq(1).hasClass("then")){
+                    $(".saoma").css("display","block");
+                }else{
+                    $(".saoma").css("display","none")
+                }
+            })
+            $(".btn").click(function(){
+                var zh = $(".zh").val();
+                var mi = $(".mi").val();
+                $.get("http://jx.xuzhixiang.top/ap/api/login.php",{
+                    username:zh,
+                    password:mi
+                },data=>{
+                    console.log(data.code)
+                    if(data.code == 0 || zh == "" && mi == ""){
+                        alert("请输入正确的用户名或者密码")
+                    }else if(data.code != 0 || zh == "zh" && mi == "mi"){
+                        localStorage.setItem("username",JSON.stringify(data.data.username))
+                        localStorage.setItem("daraID",JSON.stringify(data.data.id))
+                        localStorage.setItem("token",JSON.stringify(data.data.token))
+                        window.location.href="http://localhost:8080/shouye.html";
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

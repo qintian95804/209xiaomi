@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/zhuce.css">
+</head>
+<body>
+    <div class="wrap">
+        <div class="her"><i><img src="img/001.png"></i></div>
+        <h4>注册小米账号</h4>
+        <div class="zhuce1">
+            <p>国家/地区</p>
+            <input type="text" value="中国"><span>中国</span>
+            <p>验证手机号</p>
+            <span>+86<i></i></span><input class="shouji" type="text">
+            <button class="btn1">立即注册</button>
+            <b><em>已阅读并同意：小米　</em>用户协议<em>　和</em>　隐私政策</b>
+        </div>
+        <div class="zhuce2">
+            <div class="lie">　请输入账号:　<input class="zh" type="text"></div>
+            <div class="lie">　请输入密码:　<input class="mi" type="password"></div>
+            <div class="lie">　请再次输入:　<input class="zc" type="password"></div>
+            <div class="lie">请输入验证码:　<input class="yz" type="text"><span class="simite"></span></div>
+            <div class="lie"><button class="btn2">注册</button></div>
+        </div>
+    </div>
+    <div class="footer">
+        <ul>
+            <li>简体 　|</li>
+            <li>繁体 　|</li>
+            <li>English 　|</li>
+            <li>常见问题 　|</li>
+            <li>隐私策略</li>
+        </ul>
+        <p>
+            <span>小米公司版权所有-京ICP备10046444-</span>
+            <i><img src="img/074.png"></i>
+            <a href="">京公网安备11010802020134号-京ICP证110507号</a>
+        </p>
+    </div>
+    <div class="div">注册成功，请登陆<br><button class="queding">确定</button></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $(".btn1").click(function(){
+                var ssr = $(".shouji").val();
+                if((/^1[3456789]\d{9}$/.test(ssr))){
+                    $(".zhuce1").css("display","none");
+                    $(".zhuce2").css("display","block")
+                }else{
+                    alert("请输入正确手机号")
+                }
+            });
+            function f4(){
+                for(var i = 0; i < 10;i++){
+                    var a = parseInt(Math.random()*10)
+                    var b = parseInt(Math.random()*10)
+                    var c = parseInt(Math.random()*10)
+                    var d = parseInt(Math.random()*10)
+                }
+                return ""+a+b+c+d;
+            }
+            $(".simite").text(f4());
+            $(".simite").click(function(){
+            $(".simite").text(f4());
+            })
+            $(".btn2").click(function(){
+                var zh = $(".zh").val();
+                var mi = $(".mi").val();
+                var zc = $(".zc").val();
+                var yz = $(".yz").val();
+                if(!/^[a-z0-9_-]{3,16}$/.test(zh)){
+                    alert("账号格式错误")
+                    return false;
+                };
+                if(!/^[a-z0-9_-]{6,18}$/.test(mi)){
+                    alert("密码格式错误")
+                    return false;
+                };
+                if(mi != zc){
+                    alert("两次密码不一致")
+                    return false;
+                };
+                var stop = $(".simite").text();
+                var yz = $(".yz").val();
+                if(yz != stop){
+                    alert("验证码错误");
+                    return false;
+                }
+                $.get("http://jx.xuzhixiang.top/ap/api/reg.php",{
+                    username:zh,
+                    password:mi
+                },data =>{
+                    if(data.code == 1){
+                        $(".div").css("display","block");
+                        $(".queding").click(function(){
+                            window.location.href="http://localhost:8080/denglu.html";
+                        });
+                    }else{
+                        alert("用户名已存在");
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

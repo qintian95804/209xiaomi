@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/gouwuche.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+    <div class="herderys">
+        <div class="herder">
+            <div class="logotp">
+                <img src="img/002.png">
+                <img src="img/001.png">
+            </div>
+            <h3>我的购物车</h3>
+            <div class="dl">
+                <a class="deng" href="http://localhost:8080/denglu.html">登录</a>
+                <a class="deng1" href=""></a>
+                <a class="zhu" href="http://localhost:8080/zhuce.html">注册</a>
+                <a class="zhu1" href=""></a>
+            </div>
+        </div>
+    </div>
+    <div class="lieys">
+        <div class="lie">
+            <h3><span>全部商品</span><div><span>配送至：</span><p>河南高新区威科姆科技园D座4楼</p></div></h3>
+            <h2>
+                <input class="g" type="checkbox">
+                <span class="q">全选</span>
+                <span class="s">商品</span>
+                <span class="d">单价</span>
+                <span class="sl">数量</span>
+                <span class="x">小计</span>
+                <span class="c">操作</span>
+            </h2>
+            <div class="nav101"></div>
+            <div class="nav102">总价:<span class="zongjia"></span><button>去结算</button></div>
+        </div>
+    <div class="fooser">
+        <ul>
+            <li><i class="glyphicon glyphicon-wrench"></i> 预约维修服务</li>
+            <li><i class="glyphicon glyphicon-time"></i> 7天无理由退货</li>
+            <li><i class="glyphicon glyphicon-time"></i> 15天免费换货</li>
+            <li><i class="glyphicon glyphicon-gift"></i> 满99元包邮</li>
+            <li><i class="glyphicon glyphicon-map-marker"></i> 520余家售后网点</li>
+        </ul>
+        <div>
+            <dl>
+                <dt>帮助中心</dt>
+                <dd>账号管理</dd>
+                <dd>购物指南</dd>
+                <dd>订单操作</dd>
+            </dl>
+            <dl>
+                <dt>服务支持</dt>
+                <dd>售后策略</dd>
+                <dd>自助服务</dd>
+                <dd>相关下载</dd>
+            </dl>
+            <dl>
+                <dt>线下门店</dt>
+                <dd>小米之家</dd>
+                <dd>服务网点</dd>
+                <dd>授权体验店</dd>
+            </dl>
+            <dl>
+                <dt>关于小米</dt>
+                <dd>了解小米</dd>
+                <dd>加入小米</dd>
+                <dd>投资者关系</dd>
+                <dd>企业社会责任</dd>
+                <dd>链接举报</dd>
+            </dl>
+            <dl>
+                <dt>关注我们</dt>
+                <dd>新浪微博</dd>
+                <dd>官方微信</dd>
+                <dd>联系我们</dd>
+                <dd>公益基金会</dd>
+            </dl>
+            <dl>
+                <dt>特色服务</dt>
+                <dd>F 码通道</dd>
+                <dd>礼物码</dd>
+                <dd>防伪查询</dd>
+            </dl>
+            <div>
+                <p>400-100-5678</p>
+                <span>8:00-18:00 (仅收市话费)</span>
+                <a href=""><img src="img/102.png"> 人工客服</a>
+                <b>关注小米：<i><img src="img/105.png"></i>　<em><img src="img/105.png"></em></b>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            let a=JSON.parse(localStorage.getItem("daraID"));
+            $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php",{
+                id:a,
+            },data=>{
+                str = "";
+                for(let i =0;i < data.data.length;i++){
+                    str+=`
+                    <div class="moban" data-id="${data.data[i].pid}">
+                    <input class="xg" type="checkbox">
+                    <img src="${data.data[i].pimg}">
+                    <p>${data.data[i].pname}<br>${data.data[i].pdesc}</p>
+                    <span>￥<span class="dan">${data.data[i].pprice}</span></span>
+                    <span class="shul"><span class="jian">-</span><input class="sl" type="text" class="ge" value="${data.data[i].pnum}"><span class="jia">+</span></span>
+                    <span class="xiaoj">${data.data[i].pprice*data.data[i].pnum}</span>
+                    <button class="shanchu">删除</button>
+                    </div>
+                    `
+                }
+                $(".nav101").append(str);
+                $(".jian").click(function(){
+                    let s = $(this).next().val();
+                    s--;
+                    if(s <= 1){
+                        s=1;
+                    }
+                    $(this).next().val(s);
+                    var price=Number($(this).parent().prev().text().substr(1,$(this).parent().prev().text().length-1));
+                    xiaoji(s,price,$(this));
+                    let id = $(this).parent().parent().attr("data-id");
+                    $.get("http://jx.xuzhixiang.top/ap/api/cart-update-num.php",{
+                        uid:a,
+                        pid:id,
+                        pnum:s
+                    })
+                })
+                    $(".jia").click(function(){
+                        let s = $(this).prev().val();
+                        s++;
+                        $(this).prev().val(s);
+                        var price=Number($(this).parent().prev().text().substr(1,$(this).parent().prev().text().length-1));
+                        xiaoji(s,price,$(this))
+                        let id = $(this).parent().parent().attr("data-id");
+                        $.get("http://jx.xuzhixiang.top/ap/api/cart-update-num.php",{
+                            uid:a,
+                            pid:id,
+                            pnum:s
+                        })
+                    })
+                    $(".shanchu").click(function(){
+                    let pid = $(this).parent().attr("data-id");
+                    let d=JSON.parse(localStorage.getItem("daraID"));
+                    $.get("http://jx.xuzhixiang.top/ap/api/cart-delete.php",{
+                        uid:d,
+                        pid:pid
+                    })
+                    $(this).parent().remove();
+                    zongjia();
+                })
+                $(".g").click(function(){
+                    $(".xg").prop("checked",this.checked);
+                    zongjia();
+                })
+                $(".xg").click(function(){
+                    if($(".xg").length == $(".xg").filter(":checked").length){
+                        $(".g").prop("checked",this.checked)
+                    }else{
+                        $(".g").prop("checked",false)
+                    }
+                    zongjia();
+                })
+                function xiaoji(num,price,dom){
+                    var danjia=num*price;
+                    dom.parent().next().text(danjia)
+                    zongjia()
+                }
+                function zongjia(){
+                    let sum = 0;
+                    $(".xg").each(function(){
+                        if(this.checked == true){
+                            let i = $(this).siblings(".xiaoj").text();
+                            sum += Number(i);
+                        }
+                    })
+                    $(".zongjia").text(sum);
+                }
+            })
+            if(a != undefined){
+                $(".deng").css("display","none");
+                $(".deng1").css("display","inline-block");
+                $(".deng1").text(""+"你好: "+ a);
+                $(".zhu1").text("注销");
+                $(".zhu").css("display","none");
+                $(".zhu1").css("display","inline-block");
+                $(".zhu1").click(function(){
+                    $(".deng").css("display","inline-block")
+                    $(".zhu").css("display","inline-block");
+                    $(".deng1").css("display","none")
+                    $(".zhu1").css("display","none");
+                    localStorage.removeItem("usename");
+                    localStorage.removeItem("daraID");
+                    localStorage.removeItem("token");
+                })
+            }
+        })
+    </script>
+</body>
+</html>
