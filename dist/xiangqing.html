@@ -312,7 +312,7 @@
                     $(".zhu").css("display","block");
                     $(".yonghu1").css("display","none")
                     $(".zhu1").css("display","none");
-                    localStorage.removeItem("usename");
+                    localStorage.removeItem("username");
                     localStorage.removeItem("daraID");
                     localStorage.removeItem("token");
                 })
@@ -320,10 +320,9 @@
 
             function GetQueryString(name) {
                 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                var r = window.location.search.substr(1).match(reg); //,查询？后面的参数，并匹配正则
+                var r = window.location.search.substr(1).match(reg);
                 if (r != null) return decodeURIComponent(r[2]);
                 return null;
-
             }
             // var myurl = GetQueryString("url");
             // if (myurl != null && myurl.toString().length > 1) {
