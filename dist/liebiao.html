@@ -417,11 +417,10 @@
             $.get("http://jx.xuzhixiang.top/ap/api/productlist.php",{
                 uid:"43766"
                 },data =>{
-                    console.log(data)
                     let str = "";
                     for(let i = 0; i < data.data.length; i++){
                         str+=`
-                        <div>
+                        <div class="sub">
                         <a href="xiangqing.html?pid=${data.data[i].pid}"><img src="${data.data[i].pimg}"></a>
                         <div>
                         <h3>${data.data[i].pname}</h3>
@@ -434,18 +433,6 @@
                 $(".lie").append(str);
             });
             $(function(){
-                $("a").click(function(){
-                    window.location.href="http://localhost:8080/liebiao.html";
-                })
-                $("li").click(function(){
-                    window.location.href="http://localhost:8080/liebiao.html";
-                })
-                $('.swiper-slide').mouseenter(function () {
-                swiper.autoplay.stop();
-                })
-                $('.swiper-slide').mouseleave(function () {
-                    swiper.autoplay.start();
-                });
                 $(".huiding").click(function(){
                     $("html,body").stop().animate({
                         "scrollTop":0
