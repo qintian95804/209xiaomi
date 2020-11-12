@@ -146,13 +146,18 @@
                         })
                     })
                     $(".shanchu").click(function(){
-                    let pid = $(this).parent().attr("data-id");
-                    let d=JSON.parse(localStorage.getItem("daraID"));
-                    $.get("http://jx.xuzhixiang.top/ap/api/cart-delete.php",{
-                        uid:d,
-                        pid:pid
-                    })
-                    $(this).parent().remove();
+                        let pid = $(this).parent().attr("data-id");
+                        let d=JSON.parse(localStorage.getItem("daraID"));
+                        $.get("http://jx.xuzhixiang.top/ap/api/cart-delete.php",{
+                            uid:d,
+                            pid:pid
+                        });
+                        $(this).parent().remove();
+                        if($(".xg").length == $(".xg").filter(":checked").length){
+                            $(".g").prop("checked",true)
+                        }else{
+                            $(".g").prop("checked",false)
+                        }
                     zongjia();
                 })
                 $(".g").click(function(){

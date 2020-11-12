@@ -1,6 +1,6 @@
 function miaosha(){
     var date1 = new Date();//当前时间
-    var date2 = new Date("2020-11-20 10:00:00");//指定时间
+    var date2 = new Date("2020-11-12 21:30:00");//指定时间
     var ss = (date2 - date1) / 1000;//剩余时间
     var shi = Math.floor(ss / 3600);//小时
     var fen = Math.floor(ss / 60 % 60);//分钟
