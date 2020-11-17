@@ -318,17 +318,18 @@
                 })
             }
 
-            function GetQueryString(name) {
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                var r = window.location.search.substr(1).match(reg);
-                if (r != null) return decodeURIComponent(r[2]);
-                return null;
-            }
+            // function GetQueryString(name) {
+            //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            //     var r = window.location.search.substr(1).match(reg);
+            //     if (r != null) return decodeURIComponent(r[2]);
+            //     return null;
+            // }
             // var myurl = GetQueryString("url");
             // if (myurl != null && myurl.toString().length > 1) {
             //     alert(GetQueryString("url"));
             // }
-            let pid = GetQueryString("pid");
+            // let pid = GetQueryString("pid");
+            var pid = location.search.split("=")[1];
             $.get("http://jx.xuzhixiang.top/ap/api/detail.php",{
                 id:pid
             },data =>{
